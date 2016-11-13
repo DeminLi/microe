@@ -68,10 +68,16 @@ client = function()
 		}, function(err, res)
 		{
 			let titles = res.titles;
+			let ids = [];
+			if(titles)
+			{
+				ids = Object.keys(titles);
+			}
+
 			let locations = res.locations;
 			let times = res.times;
 			let details = res.details;
-			let ids = Object.keys(titles);
+
 			events = [];
 			async.each(ids, function(id, cb)
 			{
