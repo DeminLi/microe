@@ -31,6 +31,7 @@
       <p><strong>Location:</strong> <%= location%></p>
       <p><strong>Time:</strong> <%= time %></p>
       <p><%= detail %></p>
+      <img id="img_elem" draggable="false" src="http://api.qrserver.com/v1/create-qr-code/?data=http://microe.herokuapp.com/event/<%= id%>&size=100x100" width="149" height="149" class="loaded" style="left: 657.5px; top: 55px;">
     </div><!-- /.container -->
     <% include ../partials/foot.ejs%>
   </body>

@@ -37,6 +37,7 @@ app.get('/event/:id', function(req, res)
 		{
 			res.render('pages/event',
 			{
+				id: event.id,
 				title: event.title,
 				location: event.location,
 				detail: event.detail,
