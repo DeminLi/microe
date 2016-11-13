@@ -2,7 +2,7 @@ var event = require("../event/event");
 var redis = require("../db/redis-client");
 
 var db = new redis();
-module.exports = function(title, description, time)
+module.exports = function(title, location, time, detail)
 {
 	function generateId(callback)
 	{
@@ -16,7 +16,7 @@ module.exports = function(title, description, time)
 	
 	generateId(function (id) 
 		{
-			var newEvent = new event(id, title, description, time);
+			var newEvent = new event(id, title, location, time, detail);
 			db.createEvent(newEvent, null);
 		});
 }

@@ -14,13 +14,20 @@ module.exports = function(id, callback)
     			cb(null, titleRes);
     		})
     	},
-    	description: function(cb) 
+    	detail: function(cb) 
     	{ 
-    		db.getEventDes(id, function (desRes)
+    		db.getEventDetail(id, function (detailRes)
     		{
-    			cb(null, desRes);
+    			cb(null, detailRes);
     		})
     	},
+        location: function(cb) 
+        { 
+            db.getEventDetail(id, function (locRes)
+            {
+                cb(null, locRes);
+            })
+        },
     	time: function(cb) 
     	{
     		db.getEventTime(id, function (timeRes)
@@ -30,7 +37,7 @@ module.exports = function(id, callback)
     	}
 	}, function (err, res) 
 	{
-		let newEvent = new event(id, res.title, res.description, res.time);
+		let newEvent = new event(id, res.title, res.location, res.time, res.detail);
 		callback(newEvent);
 	});
 }

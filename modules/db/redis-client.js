@@ -7,9 +7,10 @@ client = function()
 	{
 		var client = redis.createClient(process.env.REDIS_URL);
 		client.multi()
-		.hset("event-title", event.id, event.title, redis.print)
-		.hset("event-description", event.id, event.description, redis.print)
-		.hset("event-time", event.id, event.time, redis.print)
+		.hset("event-title", event.id, event.title)
+		.hset("event-location", event.id, event.location)
+		.hset("event-time", event.id, event.time)
+		.hset("event-detail", event.id, event.detail)
 		.exec(function () { });
 		client.quit();
 	}
@@ -43,11 +44,18 @@ client = function()
 					cb(null, titles);
 				})
 			},
-			descriptions: function(cb)
+			locations: function(cb)
 			{
-				client.hgetall('event-description', function(err, descriptions)
+				client.hgetall('event-location', function(err, location)
 				{
-					cb(null, descriptions);
+					cb(null, location);
+				})
+			},
+			details: function(cb)
+			{
+				client.hgetall('event-detail', function(err, detail)
+				{
+					cb(null, detail);
 				})
 			},
 			times: function(cb)
@@ -60,16 +68,18 @@ client = function()
 		}, function(err, res)
 		{
 			let titles = res.titles;
-			let dess = res.descriptions;
+			let locations = res.locations;
 			let times = res.times;
+			let details = res.details;
 			let ids = Object.keys(titles);
 			events = [];
 			async.each(ids, function(id, cb)
 			{
 				let title = titles[id];
-				let des = dess[id];
+				let detail = details[id];
 				let time = times[id];
-				events.push(new event(id, title, des, time));
+				let location = locations[id];
+				events.push(new event(id, title, location, time, detail));
 			}, function(err)
 			{
 			});
@@ -88,12 +98,12 @@ client = function()
 		client.quit();
 	}
 
-	this.getEventDes = function (id, callback)
+	this.getEventDetail = function (id, callback)
 	{
 		let client = redis.createClient(process.env.REDIS_URL);
-		client.hget("event-description", id, function (err, des)
+		client.hget("event-detail", id, function (err, detail)
 		{
-			callback(des);
+			callback(detail);
 		})
 		client.quit();
 	}
@@ -104,6 +114,16 @@ client = function()
 		client.hget("event-time", id, function (err, time)
 		{
 			callback(time);
+		})
+		client.quit();
+	}
+
+	this.getEventLocation = function (id, callback)
+	{
+		let client = redis.createClient(process.env.REIDS_URL);
+		client.hget("event-location", id, function (err, location)
+		{
+			callback(location);
 		})
 		client.quit();
 	}

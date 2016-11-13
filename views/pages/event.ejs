@@ -2,6 +2,7 @@
 <html lang="en">
   <head>    <meta charset="utf-8">
     <% include ../partials/header.ejs %>
+    <% include ../partials/event-header.ejs%>
   </head>
 
   <body>
@@ -29,8 +30,9 @@
 
       <div class="test-content">
         <h1><%= title %></h1>
-        <p class="lead"><strong>Time:</strong> <%= time %></p>
-        <p><%= des %></p>
+        <p><strong>Location:</strong> <%= location%></p>
+        <p><strong>Time:</strong> <%= time %></p>
+        <p><%= detail %></p>
       </div>
     </div><!-- /.container -->
     <% include ../partials/foot.ejs%>

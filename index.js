@@ -21,11 +21,13 @@ app.get('/new-event', function(request, response) {
   response.render('pages/new_event');
 });
 
-app.post('/new-event-submit', function(request, response) {
-	var title = request.body.eventTitle;
-	var description = request.body.eventDescription;
-  	submitNewEvent(title, description, "nil");
-  	response.redirect("/");
+app.post('/new-event-submit', function(req, res) {
+	let title = req.body.eventTitle;
+	let location = req.body.eventLocation;
+	let time = req.body.eventTime;
+	let detail = req.body.eventDetail;
+  	submitNewEvent(title, location, time, detail);
+  	res.redirect("/");
 });
 
 app.get('/event/:id', function(req, res)
@@ -36,7 +38,8 @@ app.get('/event/:id', function(req, res)
 			res.render('pages/event',
 			{
 				title: event.title,
-				des: event.description,
+				location: event.location,
+				detail: event.detail,
 				time: event.time
 			})
 		});

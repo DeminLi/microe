@@ -1,14 +1,10 @@
-event = function (id, title, description, time)
+event = function (id, title, location, time, detail)
 {
 	this.id = id;
 	this.title = title;
-	this.description = description;
+	this.location = location;
+	this.detail = detail;
 	this.time = time;
-	this.toString = function (callback)
-	{
-		var str = "title:" + title + " description:" + description
-		callback(str);
-	};
 }
 
 module.exports = event;
