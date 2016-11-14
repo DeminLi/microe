@@ -68,7 +68,7 @@ app.get('/event/:id', function(req, res)
 		},
 		wechatData: function(cb)
 		{
-			let url = 'http://microe.herokuapp.com/event/' + id;
+			let url = 'http://microe.herokuapp.com/event/' + id + '/';
     		let config = 
     		{
     			appId: 'wx60703c90d22b4232',
