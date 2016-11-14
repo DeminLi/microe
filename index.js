@@ -3,6 +3,8 @@ var bodyParser = require('body-parser')
 var submitNewEvent = require('./modules/routes/new-event-submit');
 var getEvent = require('./modules/routes/event-get');
 var redis = require("./modules/db/redis-client");
+var wechat = require('./modules/wechat.js');
+
 var app = express();
 var db = new redis();
 
@@ -20,6 +22,26 @@ app.set('view engine', 'ejs');
 app.get('/new-event', function(request, response) {
   response.render('pages/new_event');
 });
+
+app.post('/getsignature', getSignature);
+function getSignature(req, res) {
+    var url = req.body.url;
+    console.log(url);
+    let config = 
+    {
+    	appId: 'wx60703c90d22b4232',
+    	appSecret: '74bb55d2bda7d6a9598e4f5153043f25'
+    }
+    wechat(config, url, function(error, result) {
+        if (error) {
+            res.json({
+                'error': error
+            });
+        } else {
+            res.json(result);
+        }
+    });
+}
 
 app.post('/new-event-submit', function(req, res) {
 	let title = req.body.eventTitle;

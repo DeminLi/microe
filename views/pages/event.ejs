@@ -35,4 +35,59 @@
     </div><!-- /.container -->
     <% include ../partials/foot.ejs%>
   </body>
+
+  <script>
+  // 使用 jq 动态加载 微信配置
+    $.ajax({
+      url: 'http://localhost:5000/getsignature' // 此处url请求地址需要替换成你自己实际项目中服务器数字签名服务地址
+        ,
+      type: 'post',
+      data: {
+        url: location.href.split('#')[0] // 将当前URL地址上传至服务器用于产生数字签名
+      }
+    }).done(function(r) {
+      // 返回了数字签名对象
+      console.log(r);
+      console.log(r.appid);
+      console.log(r.timestamp);
+      console.log(r.nonceStr);
+      console.log(r.signature);
+
+      // 开始配置微信JS-SDK
+      wx.config({
+          debug: true,
+          appId: r.appId,
+          timestamp: r.timestamp,
+          nonceStr: r.nonceStr,
+          signature: r.signature,
+          jsApiList: [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'hideMenuItems',
+            'chooseImage'
+          ]
+      });
+
+      // 调用微信API
+      wx.ready(function() {
+          var sdata = {
+            title: '<%= title%>',
+            desc: '<%= detail%>',
+            link: 'http://microe.herokuapp.com/<event/<%= id%>',
+            //imgUrl: 'http://game.4gshu.com/xuangedan/other-project/2015-01-06/img/share-wx-logo.jpg',
+            success: function() {
+                alert('用户确认分享后执行的回调函数');
+            },
+            cancel: function() {
+                alert('用户取消分享后执行的回调函数');
+            }
+        };
+        wx.onMenuShareTimeline(sdata);
+        wx.onMenuShareAppMessage(sdata);
+      });
+    });
+  </script>
 </html>

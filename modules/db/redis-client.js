@@ -126,11 +126,31 @@ client = function()
 
 	this.getEventLocation = function (id, callback)
 	{
-		let client = redis.createClient(process.env.REIDS_URL);
+		let client = redis.createClient(process.env.REDIS_URL);
 		client.hget("event-location", id, function (err, location)
 		{
 			callback(location);
 		})
+		client.quit();
+	}
+
+	this.getTicket = function(callback)
+	{
+		let client =  redis.createClient(process.env.REDIS_URL);
+		client.get('wechat-ticket', function (err, ticket)
+		{
+			callback(ticket);
+		});
+		client.quit();
+	}
+
+	this.updateTicket = function(ticket, callback)
+	{
+		let client = redis.createClient(process.env.REDIS_URL);
+		client.multi()
+		.set('wechat-ticket', ticket)
+		.expire('wechat-ticket', 7188)
+		.exec(function () {});
 		client.quit();
 	}
 }
