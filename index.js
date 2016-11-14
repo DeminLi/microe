@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser')
+let async = require('async');
 var submitNewEvent = require('./modules/routes/new-event-submit');
 var getEvent = require('./modules/routes/event-get');
 var redis = require("./modules/db/redis-client");
@@ -38,6 +39,7 @@ function getSignature(req, res) {
                 'error': error
             });
         } else {
+        	console.log(result);
             res.json(result);
         }
     });
@@ -55,17 +57,45 @@ app.post('/new-event-submit', function(req, res) {
 app.get('/event/:id', function(req, res)
 {
 	let id = req.params.id;
-	getEvent(id, function(event)
+	async.parallel(
+	{
+		event: function(cb) 
 		{
-			res.render('pages/event',
+			getEvent(id, function(eventRes)
 			{
-				id: event.id,
-				title: event.title,
-				location: event.location,
-				detail: event.detail,
-				time: event.time
+				cb(null, eventRes);
+			});
+		},
+		wechatData: function(cb)
+		{
+			let url = 'http://microe.herokuapp.com/event/' + id;
+    		let config = 
+    		{
+    			appId: 'wx60703c90d22b4232',
+    			appSecret: '74bb55d2bda7d6a9598e4f5153043f25'
+    		}
+    		wechat(config, url, function(error, data) {
+        		if (error) {
+            		cb(null, {
+                		'error': error
+            		});
+        		} else {
+            		cb(null, data);
+        		}
+    		});
+
+		}
+	}, function(err, result)
+	{
+		let event = result.event;
+		let wechatData = result.wechatData;
+		//console.log(wechatData);
+		res.render('pages/event',
+			{
+				event: event,
+				wechatData: wechatData
 			})
-		});
+	})
 })
 
 app.get('/', function(request, response) {
