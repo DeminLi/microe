@@ -39,10 +39,10 @@
       // 开始配置微信JS-SDK
       wx.config({
           debug: true,
-          appId: <%= wechatData.appId%>,
+          appId: '<%= wechatData.appId%>',
           timestamp: <%= wechatData.timestamp%>,
-          nonceStr: <%= wechatData.nonceStr%>,
-          signature: <%= wechatData.signature%>,
+          nonceStr: '<%= wechatData.nonceStr%>',
+          signature: '<%= wechatData.signature%>',
           jsApiList: [
             'checkJsApi',
             'onMenuShareTimeline',
