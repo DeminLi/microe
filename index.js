@@ -68,20 +68,20 @@ app.get('/event/:id', function(req, res)
 		},
 		wechatData: function(cb)
 		{
-			let url = 'http://microe.herokuapp.com/event/' + id + '/';
-    		let config = 
-    		{
-    			appId: 'wx60703c90d22b4232',
-    			appSecret: '74bb55d2bda7d6a9598e4f5153043f25'
-    		}
-    		wechat(config, url, function(error, data) {
-        		if (error) {
-            		cb(null, {
-                		'error': error
-            		});
-        		} else {
-            		cb(null, data);
-        		}
+			let url = req.protocol + '://' + req.host + req.originalUrl;;
+    			let config = 
+    			{
+    				appId: 'wx60703c90d22b4232',
+    				appSecret: '74bb55d2bda7d6a9598e4f5153043f25'
+    			}
+    			wechat(config, url, function(error, data) {
+        			if (error) {
+            				cb(null, {
+                				'error': error
+            				});
+        			} else {
+            				cb(null, data);
+        			}
     		});
 
 		}
