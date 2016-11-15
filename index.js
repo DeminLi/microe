@@ -89,7 +89,6 @@ app.get('/event/:id', function(req, res)
 	{
 		let event = result.event;
 		let wechatData = result.wechatData;
-		//console.log(wechatData);
 		res.render('pages/event',
 			{
 				event: event,

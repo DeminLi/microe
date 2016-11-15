@@ -23,7 +23,7 @@ module.exports = function(id, callback)
     	},
         location: function(cb) 
         { 
-            db.getEventDetail(id, function (locRes)
+            db.getEventLocation(id, function (locRes)
             {
                 cb(null, locRes);
             })
