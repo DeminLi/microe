@@ -1,0 +1,32 @@
+  <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+  <script type="text/javascript">
+      wx.config({
+          debug: true,
+          appId: '<%= wechatData.appId%>',
+          timestamp: <%= wechatData.timestamp%>,
+          nonceStr: '<%= wechatData.nonceStr%>',
+          signature: '<%= wechatData.signature%>',
+          jsApiList: [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'hideMenuItems',
+            'chooseImage'
+          ]
+      });
+
+      wx.ready(function() {
+          var sdata = {
+            title: '<%= event.title%>',
+            desc: '<%= event.detail%>',
+            link: 'http://microe.herokuapp.com/event/<%= event.id%>/',
+            //imgUrl: 'http://game.4gshu.com/xuangedan/other-project/2015-01-06/img/share-wx-logo.jpg',
+            success: function() { },
+            cancel: function() { }
+        };
+        wx.onMenuShareTimeline(sdata);
+        wx.onMenuShareAppMessage(sdata);
+      });
+  </script>

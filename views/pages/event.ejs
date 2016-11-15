@@ -34,43 +34,6 @@
       <img id="img_elem" draggable="false" src="http://api.qrserver.com/v1/create-qr-code/?data=http://microe.herokuapp.com/event/<%= event.id%>/&size=100x100" width="149" height="149" class="loaded" style="left: 657.5px; top: 55px;">
     </div><!-- /.container -->
     <% include ../partials/foot.ejs%>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-  <script type="text/javascript">
-      // 开始配置微信JS-SDK
-      wx.config({
-          debug: true,
-          appId: '<%= wechatData.appId%>',
-          timestamp: <%= wechatData.timestamp%>,
-          nonceStr: '<%= wechatData.nonceStr%>',
-          signature: '<%= wechatData.signature%>',
-          jsApiList: [
-            'checkJsApi',
-            'onMenuShareTimeline',
-            'onMenuShareAppMessage',
-            'onMenuShareQQ',
-            'onMenuShareWeibo',
-            'hideMenuItems',
-            'chooseImage'
-          ]
-      });
-
-      // 调用微信API
-      wx.ready(function() {
-          var sdata = {
-            title: '<%= event.title%>',
-            desc: '<%= event.detail%>',
-            link: 'http://microe.herokuapp.com/event/<%= event.id%>/',
-            //imgUrl: 'http://game.4gshu.com/xuangedan/other-project/2015-01-06/img/share-wx-logo.jpg',
-            success: function() {
-                alert('用户确认分享后执行的回调函数');
-            },
-            cancel: function() {
-                alert('用户取消分享后执行的回调函数');
-            }
-        };
-        wx.onMenuShareTimeline(sdata);
-        wx.onMenuShareAppMessage(sdata);
-      });
-  </script>
+    <% include ../partials/wechat.ejs%>
   </body>
 </html>

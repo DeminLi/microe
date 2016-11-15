@@ -84,7 +84,6 @@ function getNewTicket(token, cb) {
         }
         else {
             var ticket = JSON.parse(body).ticket;
-            console.log("New Ticket: " + ticket);
             db.updateTicket(ticket);
             cb(null, ticket);
         }

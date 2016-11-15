@@ -13,6 +13,7 @@ client = function()
 		.hset("event-detail", event.id, event.detail)
 		.exec(function () { });
 		client.quit();
+		callback();
 	}
 
 	this.getCurId = function (callback)
@@ -25,11 +26,12 @@ client = function()
 		client.quit();
 	}
 
-	this.setCurId = function (id)
+	this.setCurId = function (id, callback)
 	{
 		var client = redis.createClient(process.env.REDIS_URL);
 		client.set("cur-id", id);
 		client.quit();
+		callback();
 	}
 
 	this.getAllEvents = function (callback)
