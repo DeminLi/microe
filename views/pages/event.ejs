@@ -31,7 +31,14 @@
       <p><strong>Location:</strong> <%= event.location%></p>
       <p><strong>Time:</strong> <%= event.time %></p>
       <p><%= event.detail %></p>
-      <img id="img_elem" draggable="false" src="http://api.qrserver.com/v1/create-qr-code/?data=http://microe.herokuapp.com/event/<%= event.id%>/&size=100x100" width="149" height="149" class="loaded" style="left: 657.5px; top: 55px;">
+      <div class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Share<span class="caret"></span></a>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <p>WeChat Scan QR code</p>
+            <img id="img_elem" draggable="false" src="http://api.qrserver.com/v1/create-qr-code/?data=http://microe.herokuapp.com/event/<%= event.id%>/&size=100x100" width="149" height="149" class="loaded" style="left: 657.5px; top: 55px;">
+          </li>
+        </ul>
+      </div>
     </div><!-- /.container -->
     <% include ../partials/foot.ejs%>
     <% include ../partials/wechat.ejs%>
